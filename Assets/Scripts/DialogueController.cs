@@ -9,10 +9,15 @@ public class DialogueController : MonoBehaviour
     [SerializeField] Canvas dialogueCanvas;
     [SerializeField] TextMeshProUGUI dialogueText;
     [SerializeField] GameObject dialogueBox;
+    [SerializeField] PlayerController playerController;
+    [SerializeField] Camera cam;
+    [SerializeField] SpriteRenderer dialogueBackground;
+    [SerializeField] float textBoxHeight = -1.65f;
     public float textSpeed = 1f;
     private float textTimer = 0;
-    private string currentDialogue;
-    private bool textPaused = false;
+    private string currentDialogue = "";
+    private bool textPaused = true;
+    private NPCController currentNPC = null;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -48,9 +53,38 @@ public class DialogueController : MonoBehaviour
 
     public void interactPressed(InputAction.CallbackContext context)
     {
-        if (textPaused)
+        if (context.phase == InputActionPhase.Started && this.gameObject.activeInHierarchy)
         {
-            resumeText();
+            if (currentDialogue.Length < 1)
+            {
+                playerController.movable = true;
+                dialogueBox.SetActive(false);
+                dialogueText.text = "";
+                if (currentNPC != null)
+                {
+                    currentNPC.gameObject.SetActive(false);
+                    currentNPC = null;
+                }
+                
+            }
+            else if (textPaused)
+            {
+                resumeText();
+            }
+            else
+            {
+                while (currentDialogue.Length > 0 && currentDialogue[0] != '@')
+                {
+                    dialogueText.text += currentDialogue[0];
+                    currentDialogue = currentDialogue.Remove(0, 1);
+
+                }
+                if (currentDialogue.Length > 0 && currentDialogue[0] == '@')
+                {
+                    currentDialogue = currentDialogue.Remove(0, 5);
+                }
+                textPaused = true;
+            }
         }
     }
 
@@ -58,15 +92,45 @@ public class DialogueController : MonoBehaviour
     {
         dialogueText.text = "";
         textPaused = false;
+        
     }
 
     public void startDialogue(string name)
     {
-        //dialogueBox.SetActive(true);
-        StreamReader reader = new StreamReader("Assets\\Dialogue\\" + name + ".txt");
-        //Debug.Log(reader.ReadToEnd());
-        //dialogueText.text = reader.ReadToEnd();
-        currentDialogue = reader.ReadToEnd();
-        reader.Close();
+        if (textPaused && !dialogueBox.activeInHierarchy)
+        {
+            dialogueBox.SetActive(true);
+            Debug.Log(cam.GetComponent<Rigidbody2D>().position.x);
+            dialogueBackground.transform.position = new Vector3(cam.GetComponent<Rigidbody2D>().position.x, cam.GetComponent<Rigidbody2D>().position.y - textBoxHeight, -5);
+            //dialogueBox.transform.position = new Vector3(cam.GetComponent<Rigidbody2D>().position.x, cam.GetComponent<Rigidbody2D>().position.y, -5);
+            StreamReader reader = new StreamReader("Assets\\Dialogue\\" + name + ".txt");
+            Debug.Log(name);
+            //dialogueText.text = reader.ReadToEnd();
+            currentDialogue = reader.ReadToEnd();
+            reader.Close();
+            playerController.movable = false;
+            textPaused = false;
+
+        }
+    }
+
+    public void startDialogue(string name, NPCController npc)
+    {
+        if (textPaused && !dialogueBox.activeInHierarchy)
+        {
+            currentNPC = npc;
+            dialogueBox.SetActive(true);
+            Debug.Log(cam.GetComponent<Rigidbody2D>().position.x);
+            dialogueBackground.transform.position = new Vector3(cam.GetComponent<Rigidbody2D>().position.x, cam.GetComponent<Rigidbody2D>().position.y - textBoxHeight, -5);
+            //dialogueBox.transform.position = new Vector3(cam.GetComponent<Rigidbody2D>().position.x, cam.GetComponent<Rigidbody2D>().position.y, -5);
+            StreamReader reader = new StreamReader("Assets\\Dialogue\\" + name + ".txt");
+            Debug.Log(name);
+            //dialogueText.text = reader.ReadToEnd();
+            currentDialogue = reader.ReadToEnd();
+            reader.Close();
+            playerController.movable = false;
+            textPaused = false;
+
+        }
     }
 }

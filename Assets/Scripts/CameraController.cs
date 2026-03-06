@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] PlayerController player;
     [SerializeField] Camera cam;
     [SerializeField] Rigidbody2D rb;
+    [SerializeField] float cameraFollowDistance = 1.0f;
 
     private float horizontal;
     private float vertical;
@@ -23,11 +24,11 @@ public class CameraController : MonoBehaviour
     public void moveCamera(float horizontal, float vertical)
     {
         rb.linearVelocity = Vector2.zero;
-        if(Math.Abs(player.transform.position.x - rb.transform.position.x) < 2f)
+        if(Math.Abs(player.transform.position.x - rb.transform.position.x) < cameraFollowDistance)
         {
             rb.linearVelocity = new Vector2(horizontal * player.playerSpeed, rb.linearVelocity.y);
         }
-        if (Math.Abs(player.transform.position.y - rb.transform.position.y) < 2f)
+        if (Math.Abs(player.transform.position.y - rb.transform.position.y) < cameraFollowDistance)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, vertical * player.playerSpeed);
         }
