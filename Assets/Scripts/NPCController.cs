@@ -19,7 +19,7 @@ public class NPCController : MonoBehaviour
     {
         if (grow)
         {
-            if (transform.localScale.x < 1.0f)
+            if (transform.localScale.x < 0.5f)
             {
                 //transform.localScale = transform.localScale * scaleSpeed * Time.deltaTime;
                 transform.localScale = new Vector3(transform.localScale.x + Time.deltaTime, transform.localScale.y + Time.deltaTime, 0);
@@ -36,7 +36,7 @@ public class NPCController : MonoBehaviour
     {
         if (!this.gameObject.activeInHierarchy)
         {
-            transform.position = new Vector3(cam.GetComponent<Rigidbody2D>().position.x, cam.GetComponent<Rigidbody2D>().position.y, -5);
+            transform.position = new Vector3(cam.GetComponent<Rigidbody2D>().position.x, cam.GetComponent<Rigidbody2D>().position.y + 1.5f, -5);
             currentText = dialogue;
             grow = true;
             transform.localScale = new Vector3(0.1f, 0.1f, 1f);
