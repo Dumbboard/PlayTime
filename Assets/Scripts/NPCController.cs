@@ -1,14 +1,15 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPCController : MonoBehaviour
 {
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] Camera cam;
-    [SerializeField] float scaleSpeed;
+    [SerializeField] float slideSpeed = 2;
     [SerializeField] DialogueController dc;
 
     private string currentText;
-    private bool grow = false;
+    private float slide = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,29 +18,33 @@ public class NPCController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (grow)
+        if (slide > 0)
         {
-            if (transform.localScale.x < 0.5f)
+            if (transform.position.y > cam.GetComponent<Rigidbody2D>().position.y + 1.5f)
             {
+                Debug.Log(transform.position.y - cam.GetComponent<Rigidbody2D>().position.y + 1.5f);
+                transform.position = new Vector3(transform.position.x, transform.position.y - slide * Time.deltaTime, 0);
+                slide = Vector3.Distance(transform.position, cam.GetComponent<Rigidbody2D>().position);
                 //transform.localScale = transform.localScale * scaleSpeed * Time.deltaTime;
-                transform.localScale = new Vector3(transform.localScale.x + Time.deltaTime, transform.localScale.y + Time.deltaTime, 0);
+                //transform.position = new Vector3(transform.position.x, transform.position.y - (slideSpeed * Time.deltaTime) * 8/ (transform.position.y - cam.GetComponent<Rigidbody2D>().position.y + 1.5f), 0);
+
             }
             else
             {
-                grow = false;
+                slide = 0;
                 dc.startDialogue(currentText, this);
             }
         }
     }
 
-    public void beginGrowWithDialogue(string dialogue)
+    public void beginSlideWithDialogue(string dialogue)
     {
         if (!this.gameObject.activeInHierarchy)
         {
-            transform.position = new Vector3(cam.GetComponent<Rigidbody2D>().position.x, cam.GetComponent<Rigidbody2D>().position.y + 1.5f, -5);
+            transform.position = new Vector3(cam.GetComponent<Rigidbody2D>().position.x, cam.GetComponent<Rigidbody2D>().position.y + 9f, -5);
             currentText = dialogue;
-            grow = true;
-            transform.localScale = new Vector3(0.1f, 0.1f, 1f);
+            slide = slideSpeed;
+            transform.localScale = new Vector3(0.5f, 0.5f, 1f);
             this.gameObject.SetActive(true);
         }
     }

@@ -15,7 +15,7 @@ public class DialogueTrigger : MonoBehaviour
         if (dialogues.Length > 0)
         {
             //dc.startDialogue(dialogues[0].name);
-            npc.beginGrowWithDialogue(dialogues[0].name);
+            npc.beginSlideWithDialogue(dialogues[0].name);
         }
     }
 
