@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using TMPro;
@@ -13,6 +15,7 @@ public class DialogueController : MonoBehaviour
     [SerializeField] Camera cam;
     [SerializeField] SpriteRenderer dialogueBackground;
     [SerializeField] float textBoxHeight = -1.65f;
+    private string[] choices;
     public float textSpeed = 1f;
     private float textTimer = 0;
     private string currentDialogue = "";
@@ -46,6 +49,11 @@ public class DialogueController : MonoBehaviour
                 textPaused = true;
             }
 
+            else if (currentDialogue.Length > 0 && currentDialogue[0] == '[')
+            {
+                loadChoices();
+            }
+
         }
         //Debug.Log(currentDialogue[0].Equals("@"));
 
@@ -73,7 +81,7 @@ public class DialogueController : MonoBehaviour
             }
             else
             {
-                while (currentDialogue.Length > 0 && currentDialogue[0] != '@')
+                while (currentDialogue.Length > 0 && currentDialogue[0] != '@' && currentDialogue[0] != '[')
                 {
                     dialogueText.text += currentDialogue[0];
                     currentDialogue = currentDialogue.Remove(0, 1);
@@ -83,9 +91,24 @@ public class DialogueController : MonoBehaviour
                 {
                     currentDialogue = currentDialogue.Remove(0, 5);
                 }
+                if (currentDialogue.Length > 0 && currentDialogue[0] == '[')
+                {
+                    loadChoices();
+                }
                 textPaused = true;
             }
         }
+    }
+
+    private void loadChoices()
+    {
+        choices = currentDialogue.Split("[");
+        currentDialogue = "";
+        foreach(string c in choices)
+        {
+            Debug.Log(c);
+        }
+
     }
 
     public void resumeText()

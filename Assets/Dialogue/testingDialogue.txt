@@ -3,4 +3,6 @@ Hello I am a dinosnore@
 I will grant your first quest@
 
 You must go over yonder couch and 
-collect three pillows for my fortress
+collect three pillows for my fortress@
+
+Do you accept?[yes[DinoYes[no[DinoNo

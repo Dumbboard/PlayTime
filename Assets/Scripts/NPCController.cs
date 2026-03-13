@@ -16,7 +16,7 @@ public class NPCController : MonoBehaviour
         
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (slide > 0)
         {
