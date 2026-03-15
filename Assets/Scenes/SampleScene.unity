@@ -863,6 +863,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1022259896}
   - component: {fileID: 1022259895}
+  - component: {fileID: 1022259897}
   m_Layer: 0
   m_Name: DialogueOptionTest
   m_TagString: Untagged
@@ -911,10 +912,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -283894673
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -191467969925606117, guid: e01f24406d510df42ac863117b864c12, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -935,11 +936,28 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.93715, y: -0.31277, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1022259897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022259894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c348d42278db84585841a9eca3f912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Dialogue: 
+  sprite: {fileID: 0}
+  options:
+  - {fileID: -191467969925606117, guid: e01f24406d510df42ac863117b864c12, type: 3}
+  - {fileID: -4097393763147067177, guid: b57fa19e7018fe54a8a281f9b9bebb2e, type: 3}
 --- !u!1 &1186525063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,6 +1081,7 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   dialogueBackground: {fileID: 1186525065}
   textBoxHeight: 2
+  dialgoueOptionPrefab: {fileID: 1022259894}
   textSpeed: 0.05
 --- !u!4 &1249391110
 Transform:

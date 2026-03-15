@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,7 @@ public class DialogueController : MonoBehaviour
     [SerializeField] Camera cam;
     [SerializeField] SpriteRenderer dialogueBackground;
     [SerializeField] float textBoxHeight = -1.65f;
+    [SerializeField] GameObject dialgoueOptionPrefab;
     private string[] choices;
     public float textSpeed = 1f;
     private float textTimer = 0;
@@ -63,7 +65,7 @@ public class DialogueController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && this.gameObject.activeInHierarchy)
         {
-            if (currentDialogue.Length < 1)
+            if (currentDialogue.Length < 1 && choices.Length > 0)
             {
                 playerController.movable = true;
                 dialogueBox.SetActive(false);
@@ -108,6 +110,18 @@ public class DialogueController : MonoBehaviour
         {
             Debug.Log(c);
         }
+
+        int numChoices = choices.Length / 2;
+        GameObject[] choiceList = new GameObject[numChoices];
+        for(int i = 0; i < numChoices; i += 1)
+        {
+            choiceList[i] = Instantiate(dialgoueOptionPrefab, new Vector3(transform.position.x - 3 + (30/choices.Length * i), cam.transform.position.y, 0), cam.transform.rotation);
+            choiceList[i].GetComponent<DialogueChoice>().setSprite(choices[2*i], choices[2*i+1]);
+            choiceList[i].SetActive(true);
+            
+        }
+
+
 
     }
 

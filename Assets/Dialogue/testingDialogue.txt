@@ -5,4 +5,4 @@ I will grant your first quest@
 You must go over yonder couch and 
 collect three pillows for my fortress@
 
-Do you accept?[yes[DinoYes[no[DinoNo
+Do you accept?[indexCard_yes[DinoYes[indexCard_no[DinoNo
